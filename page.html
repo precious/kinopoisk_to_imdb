@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<script type="text/javascript">
+// <![CDATA[
+    if ("http:" == document.location.protocol) {
+        document.write(unescape("%3Cscript src='" + (("https:" == document.location.protocol) ? "http://cdn.betaeasy.com" : "http://cdn.betaeasy.com") + "/betaeasy.js' type='text/javascript'%3E%3C/script%3E"))
+    }
+   // ]]>
+</script>
+<script type="text/javascript">
+// <![CDATA[
+try {
+    BetaEasy.init({
+        betaId: '456',
+        styleType: 'new',
+        buttonAlign: 'right',
+        language: 'en',
+        buttonBackgroundColor: '#f00',
+        buttonMouseHoverBackgroundColor: '#06C',
+        buttonImageActive: 'en/newbtn-3.png',
+        buttonImageHover: 'none'
+    });
+} catch(err) {}
+// ]]>
+</script>
+
+<head>
+ <title>The IMDb API v2.0 by Brian Fritz</title>
+ <meta http-equiv="content-type" content="application/xhtml; charset=UTF-8" />
+ <meta name="keywords" content="IMDb, API, JSON, XML, Web Service, Internet Movie Database" />
+ <meta name="description" content="IMDb API JSON XML" />
+ <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
+ <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+<div STYLE="font-size: 0.7em;position:absolute; top:25px; left:520px;">
+If you find this site useful please check out my other projects:
+<br/><br/>
+<div style="float:left;padding-right:5px;"><img src="http://a5.mzstatic.com/us/r30/Music/79/00/aa/mzi.pylcartw.100x100-75.jpg" ></div>
+<div style="height:110px;"><a href="http://www.facebook.com/Valeband" target="_blank">Vale</a> - Collisions<br/><br/><a href="http://itunes.apple.com/gb/album/collisions-single/id420422649" target="_blank">iTunes</a><br/><a href="http://www.amazon.com/Collisions-Single/dp/B004OCOE5W/" target="_blank">Amazon MP3</a></div>
+<div style="float:left;padding-right:5px;"><img src="http://a1.mzstatic.com/us/r1000/053/Music/70/72/36/mzi.osgabvjf.100x100-75.jpg" ></div>
+<div style="height:110px;"><a href="http://www.facebook.com/Valeband" target="_blank">Vale</a> - Ghosts<br/><br/><a href="http://itunes.apple.com/gb/album/ghosts/id368889756" target="_blank">iTunes</a><br/><a href="http://www.amazon.com/Ghosts/dp/B003IOZBC2/" target="_blank">Amazon MP3</a></div>
+<div style="float:left;padding-right:5px;"><img src="http://a4.mzstatic.com/us/r1000/014/Music/25/1c/f4/mzi.aphiarfx.100x100-75.jpg" ></div>
+<div style="height:110px;"><a href="http://www.facebook.com/Valeband" target="_blank">Vale</a> - Broken Sleep<br/><br/><a href="http://itunes.apple.com/gb/album/broken-sleep/id368444341" target="_blank">iTunes</a><br/><a href="http://www.amazon.com/Broken-Sleep/dp/B003I5XQHS/" target="_blank">Amazon MP3</a></div>
+*Also available via Napster/Zune
+</div>
+<div id="content">
+<img src="header.png" /><br/><br/>
+<h3>"Search by ID or Title" Request parameters</h3>
+<p>Please note while both i and t are optional at least one argument is required.</p>
+<table border="0" width="100%">
+	<tbody><tr>
+		<th width="15%">
+			Parameter
+		</th>
+
+		<th width="25%">
+			Value
+		</th>
+		<th width="60%">
+			Description
+		</th>
+	</tr>
+	<tr>
+
+		<td>
+			i
+		</td>
+		<td>
+			string <small>(optional)</small>
+		</td>
+		<td>
+			a valid IMDb movie id
+		</td>
+	</tr>	
+	<tr>
+
+		<td>
+			t
+		</td>
+		<td>
+			string <small>(optional)</small>
+		</td>
+		<td>
+			title of a movie to search for
+		</td>
+	</tr>
+	<tr>
+
+		<td>
+			y
+		</td>
+		<td>
+			year <small>(optional)</small>
+		</td>
+		<td>
+			year of the movie
+		</td>
+	</tr>
+	<tr>
+
+		<td>
+			r
+		</td>
+		<td>
+			JSON, XML
+		</td>
+		<td>
+			response data type (JSON default)
+		</td>
+	</tr>
+	<tr>
+
+		<td>
+			plot
+		</td>
+		<td>
+			short, full
+		</td>
+		<td>
+			short or extended plot (short default)
+		</td>
+	</tr>
+	<tr>
+
+		<td>
+			callback
+		</td>
+		<td>
+			name <small>(optional)</small>
+		</td>
+		<td>
+			JSONP callback name
+		</td>
+	</tr>
+	<tr>
+
+		<td>
+			tomatoes
+		</td>
+		<td>
+			true <small>(optional)</small>
+		</td>
+		<td>
+			adds rotten tomatoes data
+		</td>
+	</tr></tbody>
+</table>
+<br />
+<p>Sample Request (URL: <a href="http://www.imdbapi.com/?t=True Grit&y=1969">http://www.imdbapi.com/?t=True Grit&y=1969</a>):
+<div id="bd">
+<form name="requesturl" action="http://www.imdbapi.com/" method="get" class="samplequery">
+<fieldset>
+   <div>
+        <label>i:</label>
+
+        <input name="i" value="" type="text">
+    </div>
+
+   <div>
+        <label>t:</label>
+
+        <input name="t" value="" type="text">
+    </div>  
+    <div>
+        <input class="sbmt" type="submit">
+    </div>
+</fieldset>
+</form>
+</div><br />
+<p>The following is an example search for "<a href="http://www.imdbapi.com/?i=tt1285016">The Social Network</a>" by its IMDb ID.</p>
+<p>example code using AJAX:</p>
+<div id="sample">
+<pre>
+&lt;script type="text/javascript"&gt;
+
+// IMDb ID to Search
+var imdbLink = "tt1285016";
+
+// Send Request
+var http = new ActiveXObject("Microsoft.XMLHTTP");
+http.open("GET", "http://www.imdbapi.com/?i=" + imdbLink, false);
+http.send(null);
+
+// Response to JSON
+var imdbData = http.responseText;
+var imdbJSON = eval("(" + imdbData + ")");
+
+// Returns Movie Title
+alert(imdbJSON.Title);
+
+&lt;/script&gt;
+</pre>
+</div>
+<br>
+<p><b>Implemented</b>, <i>In Progress</i>, <del>unavailable</del><br><br>
+<b>Title, Director, Writer, Actors, Plot, Poster, Runtime, Rating, Votes, Genre, Released, Year, Rated, ID <small>(IMDb ID)</small>,</b> <del>Cast</del>, <del>Crew</del>, <del>Critics</del>, <del>Trivia</del>, <del>Quotes</del>
+</p>
+</body>
+</html>
+
