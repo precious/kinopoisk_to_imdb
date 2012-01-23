@@ -7,6 +7,10 @@ import re
 import json
 from parser import get_between
 
+cookie = {"uu": "###",
+	"id": "###",
+	"cs": "###"}
+
 def cookie_to_str(cookie_dict):
 	res = ''
 	for key in cookie_dict:
@@ -15,6 +19,7 @@ def cookie_to_str(cookie_dict):
 
 
 def imdb_rate_movie(link,rate):
+	global cookie
 	imdb_url_str = 'http://www.imdb.com'
 	path = "/ratings/_ajax/title"
 	tt = link.split('/')[-2]
@@ -23,8 +28,6 @@ def imdb_rate_movie(link,rate):
 		"rating": str(rate),
 		"auth": None,
 		"tracking_tag": "title-maindetails"}
-	
-	cookie = {}
 		
 	# updaiting cookie & data
 	headers_dict = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1",
@@ -37,7 +40,6 @@ def imdb_rate_movie(link,rate):
 	for header in response.info().headers:
 		if header.startswith('Set-Cookie'):
 			pair = header.replace('Set-Cookie:','').split(';')[0].strip().split('=')
-			print pair
 			cookie[pair[0]] = pair[1]
 	data_dict["auth"] = get_between(response.read(),'data-auth="','"')
 
@@ -56,5 +58,6 @@ def imdb_rate_movie(link,rate):
 	
 if __name__ == "__main__":
 	if len(sys.argv) > 2: # read from command line
-		imdb_rate_movie(sys.argv[1],int(sys.argv[2]))
+		if sys.argv[2] != '-':
+			imdb_rate_movie(sys.argv[1],int(sys.argv[2]))
 

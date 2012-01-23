@@ -9,29 +9,29 @@ from romanization import romanize
 
 
 def get_movie_url(movie_data):
-	url = 'http://www.imdbapi.com/'
+	url = 'http://www.deanclatworthy.com/imdb/'
 	params_dict = {}
 	data_list = movie_data.split('*')
 	if len(data_list) < 3:
 		raise ValueError('invalid movie data')
 	
 	# first trying to find movie using api
-	params_dict['t'] = data_list[1] if data_list[1] else romanize(data_list[0])
-	params_dict['y'] = data_list[2]
-	response = urllib.urlopen(url + '?' + urllib.urlencode(params_dict))
-	response_dict = json.loads(response.read())
-	if 'ID' in response_dict:
-		return 'http://www.imdb.com/title/' + response_dict['ID'] + '/'
-	
-	# then trying own function
-	movie_url = imdb_find_movie2.get_movie_url(movie_data)
-	if movie_url:
-		return movie_url
-	else:
-		with open('error.log','a+') as err_file:
-			err_file.write(params_dict['t'])
-			err_file.write(' | movie not found\n')
-		return None
+	params_dict['q'] = data_list[1] if data_list[1] else romanize(data_list[0])
+	params_dict['year'] = data_list[2]
+	try:
+		# first trying to find movie using api
+		response = urllib.urlopen(url + '?' + urllib.urlencode(params_dict))
+		response_dict = json.loads(response.read())
+		if 'imdburl' in response_dict:
+			return response_dict['imdburl']
+		# then trying own function
+		movie_url = imdb_find_movie2.get_movie_url(movie_data)
+		if movie_url:
+			return movie_url	
+	except:
+		pass
+
+	return None
 
 
 if __name__ == "__main__":
