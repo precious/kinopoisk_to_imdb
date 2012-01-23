@@ -1,0 +1,6 @@
+kinopoisk_to_imdb - several scripts for kinopoisk.ru to imdb.com migration
+	type your kinopoisk userID instead of ### in kinopoisk_to_imdb.sh
+	and you cookies in imdb_rate_movie.py
+	then launch kinopoisk_to_imdb.sh
+	successfully rated films will be listed in rate.log
+	films that was not found will be listed in error.log
