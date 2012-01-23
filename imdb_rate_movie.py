@@ -29,7 +29,7 @@ def imdb_rate_movie(link,rate):
 		"auth": None,
 		"tracking_tag": "title-maindetails"}
 		
-	# updaiting cookie & data
+	# updating cookie & data
 	headers_dict = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1",
 		"Cookie": cookie_to_str(cookie),
 		"Pragma": "no-cache",
