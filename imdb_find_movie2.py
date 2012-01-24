@@ -20,7 +20,10 @@ def check_imdb_movie_year(path,year):
 	response = get_response(path)
 	re_html_h1_header = re.compile('(?P<h1><h1.*?class="header".*?</h1>)',re.U|re.M|re.I|re.S)
 	html_h1_header = re_html_h1_header.search(response.read()).group('h1')
-	return year in html_h1_header
+	for y in range(int(year) - 2,int(year) + 3):
+		if str(y) in html_h1_header:
+			return True
+	return False
 	
 def get_movie_url(movie_data):
 	global imdb_url_str
@@ -31,22 +34,26 @@ def get_movie_url(movie_data):
 	response = get_response('/find?' + urllib.urlencode(params_dict))
 	
 	# first check whether response is desired movie page
-	re_movie_url = re.compile(r'(?P<path>/title/[\d\w]+/)')
+	re_movie_url = re.compile(r'/title/[\d\w]+/',re.M|re.U|re.I)
 	response_url = response.geturl()
 	if re_movie_url.search(response_url):
 		return response_url
-
-	# then check 1st link to movie in response page
+		
+	# then check whether there is single link to movie in the loaded page
 	response_str = response.read()
-	url_match = re_movie_url.search(response_str)
-	
-	if url_match and  check_imdb_movie_year(url_match.group('path'),data_list[2]):
-		return imdb_url_str + url_match.group('path')
+	links_list = []
+	for link in re_movie_url.findall(response_str):
+		if link not in links_list: links_list.append(link)
+	if len(links_list) == 1: return imdb_url_str + links_list[0]
+		
+	# then check 1st link to movie in response page
+	if links_list and  check_imdb_movie_year(links_list[0],data_list[2]):
+		return imdb_url_str + links_list[0]
 	
 	# finally try to find movie in exact matches table
 	if response_str.find('Titles (Exact Matches)') != -1:
 		table_str = get_between(response_str,'<table>','</table>',response_str.find('Titles (Exact Matches)'))
-		for row in re.findall(r'<tr>.*?</tr>',table_str,flags = re.I|re.M|re.U|re.S):
-			if data_list[2] in row:
-				return imdb_url_str + get_between(row,'href="','"')
+		for row_match in re.finditer(r'<tr>.*?\((?P<year>\d{4})\).*?</tr>',table_str,flags = re.I|re.M|re.U|re.S):
+			if int(data_list[2]) - 2 <= int(row_match.group('year')) <= int(data_list[2]) + 2:
+				return imdb_url_str + get_between(row_match.group(0),'href="','"')
 
